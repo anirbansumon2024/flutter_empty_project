@@ -3,7 +3,7 @@ name: Flutter Build APK
 on:
   push:
     branches:
-      - main
+      - main  # আপনার মেইন ব্রাঞ্চের নাম অনুযায়ী চেক করুন
 
 jobs:
   build:
@@ -18,16 +18,16 @@ jobs:
           channel: 'stable'
 
       - name: Install dependencies
-        # working-directory ব্যবহার করে আমরা main/src ফোল্ডারে ঢুকছি
+        # যেহেতু প্রজেক্ট রুট থেকে src ফোল্ডারে আছে
         run: flutter pub get
-        working-directory: main/src
+        working-directory: src
 
       - name: Build APK
         run: flutter build apk --release
-        working-directory: main/src
+        working-directory: src
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
-          path: main/src/build/app/outputs/flutter-apk/app-release.apk
+          path: src/build/app/outputs/flutter-apk/app-release.apk
