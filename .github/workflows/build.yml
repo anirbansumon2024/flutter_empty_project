@@ -3,7 +3,7 @@ name: Flutter Build APK
 on:
   push:
     branches:
-      - main  # আপনার মেইন ব্রাঞ্চের নাম অনুযায়ী চেক করুন
+      - main
 
 jobs:
   build:
@@ -11,6 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      # জাভা ভার্সন সেটআপ (Java 11 ব্যবহার করা হচ্ছে যা পুরনো Gradle-এর সাথে সামঞ্জস্যপূর্ণ)
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -18,7 +25,6 @@ jobs:
           channel: 'stable'
 
       - name: Install dependencies
-        # যেহেতু প্রজেক্ট রুট থেকে src ফোল্ডারে আছে
         run: flutter pub get
         working-directory: src
 
