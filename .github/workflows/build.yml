@@ -11,24 +11,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      # জাভা ভার্সন সেটআপ (Java 11 ব্যবহার করা হচ্ছে যা পুরনো Gradle-এর সাথে সামঞ্জস্যপূর্ণ)
-      - name: Set up JDK 11
+      # জাভা ভার্সন ১৭ সেটআপ করা হয়েছে (SDK 31+ এর জন্য এটি প্রয়োজন)
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
+          cache: 'gradle' # বিল্ড স্পিড বাড়ানোর জন্য ক্যাশ যোগ করা হয়েছে
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.19.0'
           channel: 'stable'
+          cache: true # ফ্লাটার প্যাকেজ ক্যাশ করবে
 
       - name: Install dependencies
         run: flutter pub get
         working-directory: src
 
       - name: Build APK
+        # --no-tree-shake-icons যোগ করা হয়েছে যদি আইকন নিয়ে কোনো সমস্যা হয়
         run: flutter build apk --release
         working-directory: src
 
